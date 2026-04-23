@@ -1,0 +1,160 @@
+SELECT * 
+FROM portfolioproject.covidd
+order by 6,7;
+
+select * 
+from portfolioproject.covidvaccinations
+order by 6,7;
+
+select location,total_deaths,total_cases,new_cases,population 
+from portfolioproject.covidd
+order by total_deaths desc;
+
+#Looking at total cases vs total deaths
+#Shows likelihood of how many deaths happend if you contact with covid in your country
+
+select location,total_cases,total_deaths,new_cases,population, (total_deaths/nullif(total_Cases,0))*100 as DeathPercentage
+from portfolioproject.covidd
+where total_deaths>0 and location like '%rica%'
+order by total_deaths desc,total_cases asc;
+
+#Looking at total cases vs population
+#Shows what percentage of population got covid
+select location,total_cases,new_cases,population,(total_cases/population)*100 as covidpercentage
+from portfolioproject.covidd
+where total_cases>0 
+order by location asc,covidpercentage desc;
+
+#Looking at highest infected  rate countries compared to population
+
+select location,population,total_cases,max(total_cases) as highestinfected,(max(total_cases/population)*100) as percentagepopulatedinfected
+from portfolioproject.covidd
+group by location,population,total_cases
+order by percentagepopulatedinfected desc;
+
+# Showing the highest death count per population
+select location,population,max(cast(total_deaths as signed)) as highestdeathrate , (max(cast(total_deaths as signed))/population)*100 as percentagepopulationdeath
+from portfolioproject.covidd
+where continent is not null
+group by location,population
+order by percentagepopulationdeath desc;
+
+#Let's break things down by continent
+#showing continent with highest death rate per population
+select continent,max(cast(total_deaths as unsigned)) as highestdeaths ,(max(cast(total_deaths as signed))/population)*100 as Totaldeathpercentage
+from portfolioproject.covidd
+where continent is not null
+group by continent,population
+order by highestdeaths,Totaldeathpercentage desc;
+
+#Global Numbers
+select sum(new_cases) as Totalcases , sum(cast(new_deaths as unsigned)) as TotalNewDeath ,sum(cast(new_deaths as unsigned))/sum(cast(new_cases as unsigned)) as DeathPercentage
+from portfolioproject.covidd
+where continent is not null
+order by Totalcases desc,date asc;
+
+#Population and Population density by Loaction and date
+select cov.population,cov.date,cov.continent,cov.location,vac.population_density,cast(sum(vac.population_density)  over(partition by cov.location order by cov.date)  as unsigned ) as rolling_density
+from portfolioproject.covidd cov join portfolioproject.covidvacc vac
+on cov.location=vac.location and cov.date=str_to_date(vac.date,'%d-%m-%y')
+where cov.continent is not null
+order by cov.location;
+
+
+#Population and Population density by Loaction and date
+with popvsvac(population,date,continent,location,population_density,rolling_density)
+as
+(
+select cov.population,
+cov.date,
+cov.continent,
+cov.location,
+vac.population_density,
+cast(sum(vac.population_density)  over(partition by cov.location order by cov.date)  as unsigned ) as rolling_density
+from portfolioproject.covidd cov 
+join portfolioproject.covidvacc vac
+	on cov.location=vac.location 
+    and cov.date=str_to_date(vac.date,'%d-%m-%y')
+where cov.continent is not null
+)
+select * from popvsvac;
+
+#Using CTE
+with vacc(location,population,date,continent,new_vaccinations_smoothed,Rollingpeoplevaccination)
+As
+(
+select cov.location,cov.population,cov.date,cov.continent,vac.new_vaccinations_smoothed,sum(cast(vac.new_vaccinations_smoothed as unsigned)) over (partition by cov.location order by cov.date) as Rollingpeoplevaccination
+from portfolioproject.covidd cov join portfolioproject.covidvacc vac
+on cov.location=vac.location and cov.date=str_to_date(vac.date,'%d-%m-%y')
+where cov.continent is not null
+)
+select * , (Rollingpeoplevaccination/population)*100 as vaccinated
+from vacc;
+
+
+#Using Temp Table
+drop table if exists percentagepopulationvaccine;
+create table percentagepopulationvaccine
+(
+location varchar(300),
+population numeric,
+date datetime,
+continent varchar(300),
+new_vaccinations_smoothed numeric,
+Rollingpeoplevaccination numeric,
+vaccinated numeric
+);
+insert into percentagepopulationvaccine
+(location, population, date, continent, new_vaccinations_smoothed, rollingpeoplevaccination)
+select 
+cov.location,
+cov.population,
+cov.date,
+vac.continent,
+coalesce(cast(nullif(vac.new_vaccinations_smoothed,'') as unsigned),0) as new_vaccinations,
+sum(coalesce(cast(nullif(vac.new_vaccinations_smoothed,'') as unsigned),0) )
+over (partition by cov.location order by cov.date) as Rollingpeoplevaccination
+from portfolioproject.covidd cov 
+join portfolioproject.covidvacc vac
+	on cov.location=vac.location 
+    and cov.date=str_to_date(vac.date,'%d-%m-%Y')
+where vac.continent is not null;
+
+select * , (Rollingpeoplevaccination/population)*100 as vaccinated
+from percentagepopulationvaccine;
+
+
+#creating view to store data for later visuals
+create view percenttt as
+select 
+cov.location,
+cov.population,
+cov.date,
+vac.continent,
+coalesce(cast(vac.new_vaccinations_smoothed as unsigned),0) as new_vaccinations,
+sum(coalesce(cast(vac.new_vaccinations_smoothed as unsigned),0) )
+over (partition by cov.location order by str_to_date(vac.date,'%d-%m-%Y')) as Rollingpeoplevaccination
+from portfolioproject.covidd cov 
+join portfolioproject.covidvacc vac
+	on cov.location=vac.location 
+    and cov.date=str_to_date(vac.date,'%d-%m-%Y')
+    
+where vac.continent is not null;
+
+select * from percentt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
