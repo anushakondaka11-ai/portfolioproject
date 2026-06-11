@@ -45,3 +45,42 @@ This project is part of my Data Analyst portfolio to demonstrate skills in:
 
 ---
 
+
+
+
+---
+
+# Other Projects in this Portfolio
+
+## Excel Bike Sales Dashboard
+- Data Cleaning
+- Pivot Tables
+- Pivot Charts
+- Slicers
+- Interactive Dashboard
+
+## Amazon Web Scraper Using Python
+- BeautifulSoup
+- Requests
+- CSV Export
+- Automation
+
+## COVID SQL Portfolio Project
+- SQL Data Exploration
+- Joins
+- CTEs
+- Window Functions
+
+## SQL Data Cleaning Project
+- Data Cleaning
+- Data Standardization
+- Duplicate Removal
+
+## Movie Correlation Analysis
+- Pandas
+- NumPy
+- Matplotlib
+- Correlation Analysis
+- Data Visualization
+
+![Excel Dashboard](bikedashboard.jpeg)
