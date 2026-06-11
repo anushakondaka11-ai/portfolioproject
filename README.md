@@ -83,4 +83,5 @@ This project is part of my Data Analyst portfolio to demonstrate skills in:
 - Correlation Analysis
 - Data Visualization
 
-![Excel Dashboard](bikedashboard.jpeg)
+<img width="1176" height="625" alt="image" src="https://github.com/user-attachments/assets/ca5a0771-cde5-4f7c-b9f1-672e64c2e193" />
+
