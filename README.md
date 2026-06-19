@@ -87,3 +87,34 @@ This project is part of my Data Analyst portfolio to demonstrate skills in:
 
 <img width="1176" height="625" alt="image" src="https://github.com/user-attachments/assets/ca5a0771-cde5-4f7c-b9f1-672e64c2e193" />
 
+## Cryptocurrency API Automation Project
+
+- CoinMarketCap API Integration
+- JSON Data Extraction
+- Pandas Data Processing
+- CSV File Automation
+- Data Analysis
+- Data Visualization with Seaborn & Matplotlib
+
+### Project Overview
+This project automates the collection of cryptocurrency market data using the CoinMarketCap API. The API response is converted from JSON format into a Pandas DataFrame, stored in a CSV file, analyzed, and visualized using Python libraries.
+
+### Skills Demonstrated
+- Python
+- Pandas
+- API Handling
+- JSON Normalization
+- Data Cleaning
+- Data Transformation
+- Data Visualization
+- Jupyter Notebook
+
+### Key Tasks Performed
+- Connected to CoinMarketCap API
+- Retrieved live cryptocurrency data
+- Converted nested JSON data into DataFrames
+- Saved data into CSV files using Pandas
+- Automated data collection using loops and timestamps
+- Performed grouping, filtering, and aggregation
+- Created visualizations using Seaborn and Matplotlib
+
