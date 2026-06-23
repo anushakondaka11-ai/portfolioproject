@@ -118,3 +118,42 @@ This project automates the collection of cryptocurrency market data using the Co
 - Performed grouping, filtering, and aggregation
 - Created visualizations using Seaborn and Matplotlib
 
+# Data Professional Survey Dashboard (Power BI)
+
+## Project Overview
+This Power BI dashboard analyzes responses from data professionals and provides insights into:
+
+- Average Salary by Job Title
+- Favorite Programming Languages
+- Happiness with Salary
+- Happiness with Work-Life Balance
+- Gender-based Salary Analysis
+- Country-wise Survey Distribution
+
+## Tools Used
+- Power BI
+- Power Query
+- DAX
+- Data Visualization
+
+## Data Cleaning
+The dataset was cleaned using Power Query:
+- Handled missing values
+- Converted data types
+- Fixed date formats using Locale settings
+- Transformed salary ranges into numerical values
+
+## Dashboard Insights
+- Data Analysts were the most common respondents.
+- Python was the most preferred programming language.
+- Work-life balance satisfaction was higher than salary satisfaction.
+- Most survey responses came from the United States.
+
+## Files Included
+- Data_Professional_Survey_Dashboard.pbix
+- dashboard.png
+
+## Dashboard Preview
+
+![Dashboard](Power%20Bi%20Dashboard.png)
+
