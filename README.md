@@ -155,5 +155,6 @@ The dataset was cleaned using Power Query:
 
 ## Dashboard Preview
 
-![Dashboard](Power%20Bi%20Dashboard.png)
+<img width="917" height="513" alt="image" src="https://github.com/user-attachments/assets/f55636e7-8488-435a-8913-af56af39a4be" />
+
 
